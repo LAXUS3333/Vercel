@@ -1,5 +1,6 @@
 const {exec} = require('child_process')
 const path = require('path')
+const fs = require('fs')
 
 
 async function init() {
@@ -19,6 +20,13 @@ async function init() {
 
     p.on('close', function(code) {
         console.log('Built Complete')
+        const distFolderPath = path.join(outDirPath, 'output')
+        const distFolderContents = fs.readdirSync(distFolderPath, {recursive: true})
+        
+        for (const file of distFolderContents) {
+            if (fs.lstatSync(filePath).isDirectory()) continue;
+        }
+
     })
 
 }
